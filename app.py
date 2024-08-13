@@ -1,9 +1,6 @@
 import requests
 from datetime import datetime, timedelta
-
-API_KEY = 'RGAPI-3d6c250f-d0cd-450c-8b3d-587ba820cb6b'
-SUMMONER_NAME = 'nicosoccer11'
-TAGLINE = '123'
+from config import API_KEY
 
 def get_puuid(summoner_name: str, tagline: str) -> str:
     ''' 
@@ -21,9 +18,9 @@ def get_most_recent_match_by_puuid(puuid: str) -> str:
     response = requests.get(url)
     return response.json()[0]
 
-def get_match_results(match_id: str, puuid: str) -> str:
+def get_match_results(match_id: str, puuid: str) -> bool:
     ''' 
-    Returns the match results (win/loss) of the given matchId for the given PUUID
+    Returns the match results (win(T)/loss(F)) of the given matchId for the given PUUID
     '''
     url = f'https://americas.api.riotgames.com/lol/match/v5/matches/{match_id}?api_key={API_KEY}'
     response = requests.get(url)
@@ -32,24 +29,14 @@ def get_match_results(match_id: str, puuid: str) -> str:
         if particpants[i]['puuid'] == puuid:
             return particpants[i]['win']
 
-def get_seconds_until_midnight() -> int:
+def get_seconds_until_6am() -> int:
     '''
-    Returns the number of seconds remaining until midnight
+    Returns the number of seconds remaining until 6am
     '''
     now = datetime.now()
-    midnight = datetime.combine(now.date(), datetime.min.time()) + timedelta(days=1)
+    # Calculate the target time, which is 6 AM of the next day
+    target_time  = datetime.combine(now.date(), datetime.min.time()) + timedelta(days=1, hours=6)
 
-    seconds_until_midnight = (midnight - now).total_seconds()
+    seconds_until_6am = (target_time - now).total_seconds()
 
-    return int(seconds_until_midnight)
-
-    
-
-def main():
-    puuid = get_puuid(SUMMONER_NAME, TAGLINE)
-    match_id = get_most_recent_match_by_puuid(puuid)
-    match_result = get_match_results(match_id, puuid)
-    print(match_result)
-    print(get_seconds_until_midnight())
-
-main()
+    return int(seconds_until_6am)

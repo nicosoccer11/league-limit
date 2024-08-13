@@ -1,0 +1,3 @@
+API_KEY = 'RGAPI-3d6c250f-d0cd-450c-8b3d-587ba820cb6b'
+SUMMONER_NAME = 'nicosoccer11'
+TAGLINE = '123'

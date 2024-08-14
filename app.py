@@ -32,7 +32,8 @@ def get_match_results_and_date(match_id: str, puuid: str) -> bool:
     for i in range(len(particpants)):
         if particpants[i]['puuid'] == puuid:
             return particpants[i]['win'], gameEndUnix
-        
+
+#Do i need this!?!?      
 def get_seconds_until_6am() -> int:
     '''
     Returns the number of seconds remaining until 6am
@@ -62,7 +63,6 @@ def unix_to_date(unix_time: int) -> str:
     
     return datetime.fromtimestamp(unix_time_seconds).strftime('%Y-%m-%d %H:%M:%S')
 
-
 def close_league_client():
     '''
     Closes the League of Legends client
@@ -80,6 +80,42 @@ def close_league_client():
     else:
         print("Unsupported operating system")
 
-def prevent_league_access(seconds_until_6am):
-    # Sleep until 6 AM
-    time.sleep(seconds_until_6am)
+def is_league_running(league_client_name = "LeagueClient.exe") -> bool:
+    '''
+    Checks if the League of Legends client is running
+    '''
+    if os.name == 'nt':  # Windows
+        # Check for the League client process on Windows
+        tasks = subprocess.check_output(["tasklist"], universal_newlines=True)
+        return league_client_name in tasks
+    else:  # Unix-based
+        # Check for the League client process on Unix-based systems
+        processes = subprocess.check_output(["ps", "aux"], universal_newlines=True)
+        return league_client_name in processes
+    
+def block_league_client_windows(path_to_client: str, block: bool):
+    '''
+    Block or unblock the League of Legends client by changing file permissions on Windows
+    '''
+    if block:
+        # Remove execution permissions
+        subprocess.call(["icacls", path_to_client, "/deny", "everyone:(RX)"])
+    else:
+        # Restore execution permissions
+        subprocess.call(["icacls", path_to_client, "/grant", "everyone:(RX)"])
+def prevent_league_access(path_to_client: str):
+    '''
+    Prevents access to the League of Legends client until 6 AM
+    '''
+
+    # Check if the system is running Windows or Unix-based
+    is_windows = os.name == 'nt'
+    league_client_name = "LeagueClient.exe" if is_windows else "LeagueClient"
+
+    if is_league_running(league_client_name):
+        # Close the League client immediately
+        close_league_client()
+
+    # Block the League client
+    block_league_client_windows(path_to_client, block = True)
+    print(f"League client blocked. Will unblock at 6 AM.")

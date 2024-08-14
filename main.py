@@ -14,10 +14,10 @@ def main():
     
     # Get the date of the match
     unix_to_date = app.unix_to_date(gameEndUnix)
-
+   
     # if match_result is False, and date of match is == to current day close the league client
     if match_result == False and unix_to_date[0:10] == app.get_date():
-        app.close_league_client()
+        app.prevent_league_access(path_to_client = r"C:\Riot Games\Riot Client\RiotClientServices.exe")
     else:
         pass
 

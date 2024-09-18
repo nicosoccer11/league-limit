@@ -1,3 +1,10 @@
-API_KEY = 'RGAPI-268a52e9-522e-46e3-9ffe-3e1c45dae959'
-SUMMONER_NAME = 'Nico'
-TAGLINE = '234'
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
+SUMMONER_NAME = os.getenv('SUMMONER_NAME')
+TAGLINE = os.getenv('TAGLINE')
+PATH = os.getenv('PATH')

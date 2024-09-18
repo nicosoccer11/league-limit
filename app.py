@@ -1,7 +1,6 @@
 import requests
 import os
 import subprocess
-import time
 from datetime import datetime, timedelta
 from config import API_KEY
 
@@ -103,6 +102,7 @@ def block_league_client_windows(path_to_client: str, block: bool):
     else:
         # Restore execution permissions
         subprocess.call(["icacls", path_to_client, "/grant", "everyone:(RX)"])
+        
 def prevent_league_access(path_to_client: str):
     '''
     Prevents access to the League of Legends client until 6 AM

@@ -11,31 +11,41 @@ This is a for fun personal script I wrote that automatically manages access to t
 
 1. **Clone the Repository:**
 
-- SSH    
+- SSH
+    ```sh    
     git clone git@github.com:nicosoccer11/league-limit.git
     cd league-limit
+    ```
+    
 - HTTPS
+    ```sh
     git clone https://github.com/nicosoccer11/league-limit.git
     cd league-limit
+    ```
 
 2. **(Optional) Create a Virtual Environment:**
 
+    ```sh
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 
 3. **Install Required Packages:**
 
+    ```sh
     pip install -r requirements.txt
+    ```
 
 4. **Create a .env file:**
 
     Create a .env file in the root of your project directory with the following content:
 
+    ```ini
     API_KEY='your-api-key'
     SUMMONER_NAME='your-summoner-name'
     TAGLINE='your-tagline'
     PATH=r'C:\Riot Games\Riot Client\RiotClientServices.exe'
-
+    ```
 ## Running the Scripts
 
 ### Blocking the League Client

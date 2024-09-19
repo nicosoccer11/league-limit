@@ -46,11 +46,11 @@ This is a for fun personal script I wrote that automatically manages access to t
     TAGLINE='your-tagline'
     PATH=r'C:\Riot Games\Riot Client\RiotClientServices.exe'
     ```
-## Running the Scripts
+## Running the Scripts (TODO! WIP)
 
 ### Blocking the League Client
 
-The main script, `main.py`, blocks the League client based on your most recent match results.
+The main script, `main.py`, blocks the League client based on your most recent match results. 
 
 To run the script and block access:
 

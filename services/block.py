@@ -65,4 +65,3 @@ class LeagueBlockerService:
 
         # Block the League client
         self.block_league_client_windows(self.path_to_client, block = True)
-        print(f"League client blocked. Will unblock at 6 AM.")

@@ -1,15 +1,53 @@
 from services import RiotAPIService, LeagueBlockerService
-from config import SUMMONER_NAME, TAGLINE, PATH, API_KEY
+from config import API_KEY
+import json
+
+def save_user_data(username, tagline, path):
+    user_data = {
+        "username": username,
+        "tagline": tagline,
+        "path_to_cient": path
+    }
+    with open('user_data.json', 'w') as f:
+        json.dump(user_data, f)
+
+def load_user_data():
+    try:
+        with open('user_data.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return None  # Return None if no user data is found
 
 def initialize_services():
+    user_data = load_user_data()
+    if not user_data:
+        print("No user data found. Please provide summoner name, tagline, and path.")
+        return None, None
+
+    # Load path_to_client from the user data
+    path_to_client = user_data.get("path_to_client")
+    if not path_to_client:
+        print("Path to client not found in user data.")
+        return None, None
+
     api_service = RiotAPIService(api_key=API_KEY)
-    blocker_service = LeagueBlockerService(path_to_client=PATH)
+    blocker_service = LeagueBlockerService(path_to_client=path_to_client)
     return api_service, blocker_service
 
 def check_and_block(api_service: RiotAPIService, blocker_service: LeagueBlockerService):
+
+    user_data = load_user_data()
+    if not user_data:
+        print("User data not available. Cannot proceed with blocking.")
+        return
+
+    # Get summoner name and tagline from the user data
+    summoner_name = user_data.get("username")
+    tagline = user_data.get("tagline")
+
     try:
         # Get summoner PUUID
-        puuid = api_service.get_puuid(SUMMONER_NAME, TAGLINE)
+        puuid = api_service.get_puuid(summoner_name, tagline)
 
         # Get most recent match by PUUID
         match_id = api_service.get_most_recent_match_by_puuid(puuid)
@@ -34,19 +72,3 @@ def unblock_client(blocker_service: LeagueBlockerService):
     except Exception as e:
         print(f"An error occurred while unblocking: {e}\n")
 
-# def main():
-#     api_service, blocker_service = initialize_services()
-#     check_and_block(api_service, blocker_service) 
-
-#     #Unblock the league client
-#     #blocker_service.block_league_client_windows(path_to_client = r"C:\Riot Games\Riot Client\RiotClientServices.exe", block = False)
-
-#     #TODO: password protection / challenge system for unblocking (makes it harder to unblock, self control mech)
-
-#     #TODO: rule based blocking (lose 1 or 2 or 3 ...etc)
-
-#     #TODO: riot api key troubles
-
-
-# if __name__ == '__main__':
-#     main()

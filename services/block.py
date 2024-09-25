@@ -64,4 +64,4 @@ class LeagueBlockerService:
             self.close_league_client()
 
         # Block the League client
-        self.block_league_client_windows(self.path_to_client, block = True)
+        self.block_league_client_windows(block = True)

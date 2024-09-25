@@ -48,7 +48,7 @@ def check_and_block(api_service: RiotAPIService, blocker_service: LeagueBlockerS
     try:
         # Get summoner PUUID
         puuid = api_service.get_puuid(summoner_name, tagline)
-
+        
         # Get most recent match by PUUID
         match_id = api_service.get_most_recent_match_by_puuid(puuid)
 

@@ -42,24 +42,12 @@ This is a for fun personal script I wrote that automatically manages access to t
 
     ```ini
     API_KEY='your-api-key'
-    SUMMONER_NAME='your-summoner-name'
-    TAGLINE='your-tagline'
-    PATH=r'C:\Riot Games\Riot Client\RiotClientServices.exe'
     ```
-## Running the Scripts (TODO! WIP)
+## Running the Script
 
-### Blocking the League Client
+### Running main.py
 
-The main script, `main.py`, blocks the League client based on your most recent match results. 
-
-To run the script and block access:
-
+The main script, `main.py`, pulls up the GUI. From here you can insert your summoner name, id, and path to your client. Then you can block/unblock the League client based on your most recent match results. 
 ```sh
 python main.py
-```
-
-### Unblocking the League Client
-
-```sh
-python unblock.py
 ```
